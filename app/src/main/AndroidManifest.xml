@@ -23,7 +23,17 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FoodList" />
-        <activity android:name=".FoodDetail"></activity>
+        <activity android:name=".FoodDetail" />
+        <activity android:name=".SignUp" />
+        <activity android:name=".Cart" />
+        <activity android:name=".OrderStatus" />
+        <activity android:name=".Reservation" />
+        <activity android:name=".DeliveryOrderStatus" />
+        <activity android:name=".BossJustTry" />
+        <activity
+            android:name=".ServerHome"
+            android:label="@string/title_activity_server_home"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

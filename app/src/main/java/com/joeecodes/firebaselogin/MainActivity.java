@@ -1,11 +1,16 @@
 package com.joeecodes.firebaselogin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,157 +20,96 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.joeecodes.firebaselogin.Common.Common;
+import com.joeecodes.firebaselogin.Model.User;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView userText;
-    private TextView statusText;
-    private EditText emailText;
-    private EditText passwordText;
-
-    private FirebaseAuth fbAuth;
-    private FirebaseAuth.AuthStateListener authListener;
-    String User,passUserFullName;
+    EditText edtPhone, edtPassword;
+    Button btnSignIn,btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userText = (TextView) findViewById(R.id.userText);
-        statusText = (TextView) findViewById(R.id.statusText);
-        emailText = (EditText) findViewById(R.id.emailText);
-        passwordText = (EditText) findViewById(R.id.passwordText);
+        edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
+        edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
+        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+        btnSignUp = (Button) findViewById(R.id.btnSignUp);
 
-        userText.setText("");
-        statusText.setText("Signed Out");
+        // Init Firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference table_user = database.getReference("User");
 
-        fbAuth = FirebaseAuth.getInstance();
-
-        authListener = new FirebaseAuth.AuthStateListener() {
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-                    userText.setText(user.getEmail());
-                    statusText.setText("Signed In");
-                    User = String.valueOf(user);
-
-                } else {
-                    userText.setText("");
-                    statusText.setText("Signed Out");
-                }
-            }
-        };
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        fbAuth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            fbAuth.removeAuthStateListener(authListener);
-        }
-    }
-
-    public void createAccount(View view) {
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
-
-        if (email.length() == 0) {
-            emailText.setError("Enter an email address");
-            return;
-        }
-
-        if (password.length() < 6) {
-            passwordText.setError("Password must be at least 6 characters");
-            return;
-        }
-
-        fbAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this,
-                        new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                if (!task.isSuccessful()) {
-                                    notifyUser("Account creation failed");
-                                }
-                            }
-                        });
-
-    }
-
-    public void signIn(View view) {
-
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
-
-        if (email.length() == 0) {
-            emailText.setError("Enter an email address");
-            return;
-        }
-
-        if (password.length() < 6) {
-            passwordText.setError("Password must be at least 6 characters");
-            return;
-        }
-
-        fbAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this,
-                        new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull
-                                                           Task<AuthResult> task) {
-
-                                if (!task.isSuccessful()) {
-                                    notifyUser("Authentication failed");
-                                }
-                                else {
-                                    Intent homeintent = new Intent(MainActivity.this, home.class);
-//                                    homeintent.putExtra("passUserFullName",User);
-                                    startActivity(homeintent);
-//                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    finish();
-
-                                }
-                            }
-                        });
-
-    }
-
-    public void signOut(View view) {
-        fbAuth.signOut();
-    }
-
-    public void resetPassword(View view) {
-
-        String email = emailText.getText().toString();
-
-        if (email.length() == 0) {
-            emailText.setError("Enter an email address");
-            return;
-        }
-
-        fbAuth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            public void onClick(View view) {
+                table_user.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            notifyUser("Reset email sent");
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        if user exists
+                        if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                            // Get Information
+                            User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                            user.setPhone((edtPhone.getText().toString())); //set Phone
+//                            Toast.makeText(MainActivity.this, ""+user.getPhone(), Toast.LENGTH_SHORT).show();
+                            if ((user.getPassword().equals(edtPassword.getText().toString()))&&(user.getStaffaccount().equals("false")))
+//                            if (user.getPassword().equals(edtPassword.getText().toString()))
+                            {
+                                ProgressDialog dialog = ProgressDialog.show(MainActivity.this,"Loading","Please Wait..");
+//                                Toast.makeText(MainActivity.this, "Sign in successfully !", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MainActivity.this, ""+user.getStaffaccount(), Toast.LENGTH_SHORT).show();
+
+                                Intent homeIntent = new Intent(MainActivity.this,home.class);
+                                Common.currentUser = user;
+                                startActivity(homeIntent);
+                                finish();
+
+                            }
+
+                            else if ((user.getPassword().equals(edtPassword.getText().toString()))&&(user.getStaffaccount().equals("true")))
+                            {
+                                ProgressDialog dialog = ProgressDialog.show(MainActivity.this,"Loading","Boss");
+//                                Toast.makeText(MainActivity.this, "Sign in successfully !", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MainActivity.this, ""+user.getStaffaccount(), Toast.LENGTH_SHORT).show();
+
+                                Intent serverhomeIntent = new Intent(MainActivity.this,ServerHome.class);
+                                Common.currentUser = user; //send user info common.currentUser for later use
+                                startActivity(serverhomeIntent);
+                                finish();
+
+                            }
+
+                            else {
+
+                                Toast.makeText(MainActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "User does not exist in Database", Toast.LENGTH_SHORT).show();
                         }
                     }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
                 });
-    }
-    private void notifyUser(String message) {
-        Toast.makeText(MainActivity.this, message,
-                Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent SignUp = new Intent(MainActivity.this,SignUp.class);
+                startActivity(SignUp);
+            }
+        });
     }
 }

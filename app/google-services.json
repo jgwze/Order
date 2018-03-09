@@ -93,6 +93,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938349073340:android:6a8ca0c5dda4402b",
+        "android_client_info": {
+          "package_name": "com.joeecodes.nibbleserver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938349073340-73be8k5q46j7ogq6ds1app9o8hk2l9ah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joeecodes.nibbleserver",
+            "certificate_hash": "dd6ef84a8787ec39e49c7e63db52f641a88fe6d3"
+          }
+        },
+        {
+          "client_id": "938349073340-2uu0pphanhuiv6aho356e06bk7umg718.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi3PG_iS3cB3Vt92tlLjeqv4_VINDA304"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938349073340-2uu0pphanhuiv6aho356e06bk7umg718.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

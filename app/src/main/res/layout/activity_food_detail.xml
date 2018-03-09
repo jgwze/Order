@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
@@ -40,6 +41,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCart"
         android:src="@drawable/ic_shopping_cart_black_24dp"
@@ -52,7 +54,7 @@
         app:useCompatPadding="true"
         app:backgroundTint="@android:color/white"/>
 
-    <android.support.v4.widget.NestedScollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestScrollView"
         android:clipToPadding="false"
         android:layout_width="match_parent"
@@ -111,12 +113,12 @@
                     </LinearLayout>
                     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                         android:layout_width="100dp"
-                        android:layout_height="30dp"
+                        android:layout_height="50dp"
                         android:id="@+id/number_button"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginBottom="18dp"
-                        app:textSize="8sp"
+                        app:textSize="4sp"
                         app:backGroundColor="@color/colorAccent"
                         app:initialNumber="1"
                         app:finalNumber="20"
@@ -147,8 +149,6 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScollView>
-
-
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

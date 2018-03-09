@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.joeecodes.firebaselogin.Common.Common;
 import com.joeecodes.firebaselogin.Model.Category;
 import com.joeecodes.firebaselogin.Interface.ItemClickListener;
 import com.joeecodes.firebaselogin.ViewHolder.MenuViewHolder;
@@ -30,12 +31,16 @@ import com.squareup.picasso.Picasso;
 public class home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //For Database
     FirebaseDatabase database;
     DatabaseReference category;
+    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
+
     TextView txtFullName;
+
+    //View
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
-    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,10 @@ public class home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Intent cartIntent = new Intent(home.this,Cart.class);
+                startActivity(cartIntent);
             }
         });
 
@@ -74,16 +81,10 @@ public class home extends AppCompatActivity
 
         //Show Name of User
         View headerView = navigationView.getHeaderView(0);
-/*        txtFullName = (TextView)headerView.findViewById(R.id.txtFullName);
+        txtFullName = (TextView)headerView.findViewById(R.id.txtFullName);
+        txtFullName.setText(Common.currentUser.getName());
 
-        txtFullName.setText(""+PassUserFullName);
-        *//*if {
-            Toast.makeText(home.this, "User data field is null",
-                    Toast.LENGTH_SHORT).show();
-        }
-        */
-
-        //Load Menu
+        //Initiate View to Load Menu
         recycler_menu=(RecyclerView)findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
@@ -105,10 +106,13 @@ public class home extends AppCompatActivity
                         Intent foodList = new Intent(home.this,FoodList.class);
                         foodList.putExtra("CategoryId",adapter.getRef(position).getKey());
                         startActivity(foodList);
+
+
                     }
                 });
             }
         };
+        //adapter.notifyDataSetChanged();
         recycler_menu.setAdapter(adapter);
     }
 //
@@ -144,12 +148,23 @@ public class home extends AppCompatActivity
 
         if (id == R.id.nav_menu) {
             // Handle the camera action
+        } else if (id == R.id.nav_reservation) {
+            Intent reserveIntent = new Intent(home.this,Reservation.class);
+            startActivity(reserveIntent);
+
         } else if (id == R.id.nav_cart) {
+            Intent cartIntent = new Intent(home.this,Cart.class);
+            startActivity(cartIntent);
 
         } else if (id == R.id.nav_orders) {
+            Intent orderIntent = new Intent(home.this,OrderStatus.class);
+            startActivity(orderIntent);
 
         } else if (id == R.id.nav_log_out) {
-
+            //Log User out of account
+            Intent signIn = new Intent(home.this,MainActivity.class);
+            signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(signIn);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

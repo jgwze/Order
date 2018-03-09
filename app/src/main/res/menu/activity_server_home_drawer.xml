@@ -33,6 +33,4 @@
             app:itemIconTint="@android:color/white"
             android:title="Sign Out" />
     </group>
-
-
 </menu>
