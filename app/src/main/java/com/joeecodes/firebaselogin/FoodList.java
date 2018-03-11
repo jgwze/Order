@@ -51,7 +51,7 @@ public class FoodList extends AppCompatActivity {
 
     private void loadListFood(String categoryId) {
         adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class,R.layout.food_item,FoodViewHolder.class,
-                foodList.orderByChild("MenuId").equalTo(categoryId)) {
+                foodList.orderByChild("menuId").equalTo(categoryId)) {
 //            Select * from Food where MenuId=Category
             @Override
             protected void populateViewHolder(FoodViewHolder viewHolder, Food model, int position) {
@@ -65,7 +65,7 @@ public class FoodList extends AppCompatActivity {
 //                        Toast.makeText(FoodList.this, ""+local.getName(),Toast.LENGTH_SHORT).show();
                     //Start Activity
                         Intent foodDetail = new Intent (FoodList.this,FoodDetail.class);
-                        foodDetail.putExtra("FoodId",adapter.getRef(position).getKey()); //Send foodId to new Activity
+                        foodDetail.putExtra("foodId",adapter.getRef(position).getKey()); //Send foodId to new Activity
                         startActivity(foodDetail);
                     }
                 });

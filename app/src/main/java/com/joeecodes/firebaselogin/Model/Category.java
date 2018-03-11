@@ -5,30 +5,31 @@ package com.joeecodes.firebaselogin.Model;
  */
 
 public class Category {
-    private String Name;
-    private String Image;
+    private String name;
+    private String image;
 
     public Category(){
     }
 
     public Category(String name, String image) {
-        Name = name;
-        Image = image;
+        name = name;
+        image = image;
     }
 
     public String getName() {
-        return Name;
-    }
-
-    public String getImage() {
-        return Image;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public void setImage(String image) {
-        Image = image;
+        this.image = image;
     }
+
 }

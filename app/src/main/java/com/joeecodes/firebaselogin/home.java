@@ -164,7 +164,8 @@ public class home extends AppCompatActivity
             //Log User out of account
             Intent signIn = new Intent(home.this,MainActivity.class);
             signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(signIn);
+//            startActivity(signIn);
+            System.exit(0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
