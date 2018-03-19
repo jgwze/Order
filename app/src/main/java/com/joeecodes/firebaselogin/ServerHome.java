@@ -31,8 +31,12 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -45,6 +49,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
+
+import static com.joeecodes.firebaselogin.Common.Common.PICK_IMAGE_REQUEST;
 
 public class ServerHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,7 +73,7 @@ public class ServerHome extends AppCompatActivity
 
     Category newCategory;
     Uri saveUri;
-    private  final  int PICK_IMAGE_REQUEST = 71;
+
     DrawerLayout drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +132,7 @@ public class ServerHome extends AppCompatActivity
                     public void onClick(View view, int position, boolean isLongClick) {
                         //send Category Id and start new Activity
                         Intent serverfoodListIntent = new Intent(ServerHome.this,ServerFoodList.class);
-                        serverfoodListIntent.putExtra("CategoryId",adapter.getRef(position).getKey());
+                        serverfoodListIntent.putExtra("categoryId",adapter.getRef(position).getKey());
                         startActivity(serverfoodListIntent);
                     }
                 });
@@ -136,9 +142,9 @@ public class ServerHome extends AppCompatActivity
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
 //                        Toast.makeText(home.this,""+clickItem.getName(),Toast.LENGTH_SHORT).show();
-                        //Get CategoryId and send to new Activity
+                        //Get categoryId and send to new Activity
                         Intent foodList = new Intent(ServerHome.this,FoodList.class);
-                        foodList.putExtra("CategoryId",adapter.getRef(position).getKey());
+                        foodList.putExtra("categoryId",adapter.getRef(position).getKey());
                         startActivity(foodList);
 
 
@@ -190,8 +196,8 @@ public class ServerHome extends AppCompatActivity
             startActivity(cartIntent);*/
 
         } else if (id == R.id.nav_orders) {
-            /*Intent orderIntent = new Intent(home.this,OrderStatus.class);
-            startActivity(orderIntent);*/
+            Intent ServerorderIntent = new Intent(ServerHome.this,ServerDeliveryOrderStatus.class);
+            startActivity(ServerorderIntent);
 
         } else if (id == R.id.nav_log_out) {
             //Log User out of account
@@ -276,12 +282,13 @@ public class ServerHome extends AppCompatActivity
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select an image"), Common.PICK_IMAGE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PICK_IMAGE_REQUEST
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Common.PICK_IMAGE_REQUEST
                 && resultCode == RESULT_OK
                 && data != null
                 && data.getData() != null){
@@ -448,6 +455,24 @@ public class ServerHome extends AppCompatActivity
     }*/
 //private void deleteCategory(String key) {
     private void deleteCategory(String key, Category item) {
+
+        //get all food in that particular Category we are deleting
+        DatabaseReference foods = database.getReference("Foods");
+        Query foodsInCategory = foods.orderByChild("menuId").equalTo(key);
+        foodsInCategory.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapShot:dataSnapshot.getChildren())
+                {
+                    postSnapShot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         category.child(key).removeValue();//
         Snackbar.make(drawer, item.getName() + " was deleted !", Snackbar.LENGTH_LONG).show();

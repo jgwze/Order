@@ -1,0 +1,964 @@
+{
+   "swagger": "2.0",
+   "info": {
+     "title": "PayLah! APIs",
+     "description": "# Overview\nThe PayLah! APIs enables Partners (Merchants) to perform payment request for online checkout, transaction inquiry, refund etc. This section showcases all available endpoints and operations for **PayLah! API**.\n\n# Version History\nVersion | Release date | Change Log\n--------|--------------|----------------------\n1.0      | October, 2017   | Base version of API\n\n# Authentication\n<!-- ReDoc-Inject: <security-definitions> -->\n\n# Pagination\nPagination is not available on this API.\n\n# Frequently Asked Questions\nNot Available.\n\n# Known Issues\nThis API has no pending issues at the moment. Want to report a new issue? please help us [here](mailto:developers@dbs.com)\n\n# Throttling (Rate Limits)\n**We throttle our APIs by default to ensure maximum performance for all developers.**\n\n",
+     "version": "1.0"
+   },
+   "host": "www.dbs.com/sandbox",
+   "schemes": [
+     "https"
+   ],
+   "basePath": "/api/sg/v1",
+   "produces": [
+     "application/json"
+   ],
+  "securityDefinitions": {
+    "accessToken": {
+      "description": "For accessing the API, a valid JWT token must be passed as part of the headers. You can obtain one through the authorization steps. Please go through the [How it Works](https://www.dbs.com/developers/#/get-started) section for more details.\n",
+      "type": "oauth2",
+      "authorizationUrl": "https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize",
+      "tokenUrl": "https://www.dbs.com/sandbox/api/sg/v1/oauth/tokens",
+      "flow": "accessCode"
+    }
+   },
+   "paths": {
+     "/eWallet/onlineCheckout": {
+       "post": {
+         "summary": "Initiates online checkout using PayLah! wallet",
+         "description": "This API helps a Merchant initiate an online checkout by requesting payment from a PayLah! wallet (mobile number).",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "onlineCheckout",
+             "in": "body",
+             "description": "Payload for online checkout using PayLah!",
+             "required": true,
+             "schema": {
+               "type": "object",
+               "properties": {
+                 "onlineCheckout": {
+                   "$ref": "#/definitions/onlineCheckout"
+                 }
+               }
+             }
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "201": {
+             "description": "Checkout reference details.",
+             "schema": {
+               "$ref": "#/definitions/checkoutResponse"
+             }
+           },
+           "400": {
+             "description": "Bad Request"
+           },
+           "403": {
+             "description": "Forbidden"
+           },
+           "404": {
+             "description": "Not Found"
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     },
+     "/eWallet/appCheckout": {
+       "post": {
+         "summary": "Initiates mobile checkout using PayLah! app on the device",
+         "description": "This API helps a Merchant initiate a mobile checkout by requesting payment from PayLah! App on installed on the same device.",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "appCheckout",
+             "in": "body",
+             "description": "Payload for app checkout using PayLah!",
+             "required": true,
+             "schema": {
+               "type": "object",
+               "properties": {
+                 "appCheckout": {
+                   "$ref": "#/definitions/appCheckout"
+                 }
+               }
+             }
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "201": {
+             "description": "Checkout reference details.",
+             "schema": {
+               "$ref": "#/definitions/checkoutResponse"
+             }
+           },
+           "400": {
+             "description": "Bad Request"
+           },
+           "403": {
+             "description": "Forbidden"
+           },
+           "404": {
+             "description": "Not Found"
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     },
+     "/eWallet/paymentRefund": {
+       "post": {
+         "summary": "Initiates refund of a payment to PayLah! wallet",
+         "description": "This API helps a Merchant initiate a refund of payment to a PayLah! wallet (mobile number).",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "paymentRefund",
+             "in": "body",
+             "description": "Payload for refund to PayLah!",
+             "required": true,
+             "schema": {
+               "type": "object",
+               "properties": {
+                 "paymentRefund": {
+                   "$ref": "#/definitions/paymentRefund"
+                 }
+               }
+             }
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "200": {
+             "description": "Checkout reference details.",
+             "schema": {
+               "$ref": "#/definitions/checkoutResponse"
+             }
+           },
+           "400": {
+             "description": "Bad Request"
+           },
+           "403": {
+             "description": "Forbidden"
+           },
+           "404": {
+             "description": "Not Found"
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     },
+     "/eWallet/transactions/{transactionId}": {
+       "get": {
+         "summary": "Retrieve transaction status of checkout/refund",
+         "description": "This API returns the status of transaction for an online checkout or refund request.",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "transactionId",
+             "in": "path",
+             "description": "Merchant Transaction reference to identify the payment status",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "merchantId",
+             "in": "query",
+             "description": "Merchant code or identifier",
+             "required": true,
+             "type": "string"
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "200": {
+             "description": "PayLah! transaction status",
+             "schema": {
+               "$ref": "#/definitions/paymentStatus"
+             }
+           },
+           "400": {
+             "description": "Bad Request"
+           },
+           "403": {
+             "description": "Forbidden"
+           },
+           "404": {
+             "description": "Not Found"
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     },
+     "/eWallet/expressCheckoutSetup": {
+       "post": {
+         "summary": "Setup Express checkout using PayLah! wallet",
+         "description": "This function enables merchant to setup an express Payment option using Paylah Wallet.Customer will not need to login to ewallet app.This function is only available for mobile apps.",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "expressCheckoutSetup",
+             "in": "body",
+             "description": "Payload for express checkout setup using PayLah!",
+             "required": true,
+             "schema": {
+               "type": "object",
+               "properties": {
+                 "expressCheckoutSetup": {
+                   "$ref": "#/definitions/expressCheckoutSetup"
+                 }
+               }
+             }
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "200": {
+             "description": "Express checkout set up details.",
+             "schema": {
+               "$ref": "#/definitions/expressCheckoutSetupResponse"
+             }
+           },
+           "400": {
+             "description": "Bad Request",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           },
+           "403": {
+             "description": "Forbidden",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           },
+           "404": {
+             "description": "Not Found",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     },
+     "/eWallet/expressCheckout": {
+       "post": {
+         "summary": "Initiates Express checkout using PayLah! wallet",
+         "description": "This function enables merchant to initiate an express Payment request from a Paylah! Wallet",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "expressCheckout",
+             "in": "body",
+             "description": "Payload for initiating express payment using PayLah!",
+             "required": true,
+             "schema": {
+               "type": "object",
+               "properties": {
+                 "expressCheckout": {
+                   "$ref": "#/definitions/expressCheckout"
+                 }
+               }
+             }
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "200": {
+             "description": "Express checkout payment details",
+             "schema": {
+               "$ref": "#/definitions/checkoutResponse"
+             }
+           },
+           "400": {
+             "description": "Bad Request",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           },
+           "403": {
+             "description": "Forbidden",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           },
+           "404": {
+             "description": "Not Found",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     },
+     "/eWallet/expressCheckoutSetupStatus": {
+       "get": {
+         "summary": "Retrieve express checkout setup status",
+         "description": "This API returns the status of the Express setup request.",
+         "parameters": [
+           {
+             "name": "clientId",
+             "in": "header",
+             "description": "Client Identifier",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accessToken",
+             "in": "header",
+             "description": "Access Token",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "accept-version",
+             "in": "header",
+             "description": "Specifies the acceptable version of the message set. If not specified, the latest version of the API will be considered. Example: 1.2",
+             "required": false,
+             "type": "string"
+           },
+           {
+             "name": "uuid",
+             "in": "header",
+             "description": "Message UID",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "transactionId",
+             "in": "query",
+             "description": "Merchant Transaction reference to identify the setup status",
+             "required": true,
+             "type": "string"
+           },
+           {
+             "name": "merchantId",
+             "in": "query",
+             "description": "Merchant code or identifier",
+             "required": true,
+             "type": "string"
+           }
+         ],
+         "tags": [
+           "PayLah!"
+         ],
+         "responses": {
+           "200": {
+             "description": "PayLah! Express Setup status",
+             "schema": {
+               "$ref": "#/definitions/expressSetupStatus"
+             }
+           },
+           "400": {
+             "description": "Bad Request"
+           },
+           "403": {
+             "description": "Forbidden"
+           },
+           "404": {
+             "description": "Not Found"
+           },
+           "500": {
+             "description": "Internal Server Error",
+             "schema": {
+               "$ref": "#/definitions/errorList"
+             }
+           }
+         }
+       }
+     }
+   },
+   "definitions": {
+     "errorList": {
+       "description": "List of errors",
+       "type": "array",
+       "items": {
+         "$ref": "#/definitions/error"
+       }
+     },
+     "error": {
+       "type": "object",
+       "properties": {
+         "code": {
+           "description": "Error code",
+           "type": "string"
+         },
+         "message": {
+           "type": "string",
+           "description": "Error message"
+         },
+         "moreInfo": {
+           "type": "string",
+           "description": "Link to provide more information about the error"
+         }
+       }
+     },
+     "onlineCheckout": {
+       "description": "Online checkout details for eWallet payment",
+       "type": "object",
+       "required": [
+         "merchantId",
+         "eWalletId",
+         "merchantTransactionReference",
+         "amount"
+       ],
+       "properties": {
+         "merchantId": {
+           "description": "Merchant code or identifier.",
+           "type": "string"
+         },
+         "eWalletName": {
+           "description": "Name of the eWallet. Example: paylah",
+           "type": "string",
+           "default": "paylah"
+         },
+         "eWalletId": {
+           "description": "eWallet Number/identifier of the Customer to perform wallet debit. Example: 87654321",
+           "type": "string",
+           "maxLength": 8
+         },
+         "merchantTransactionReference": {
+           "description": "Transaction reference identifier for the Merchant/Customer",
+           "type": "string",
+           "maxLength": 20
+         },
+         "amount": {
+           "description": "Transaction amount for checkout.",
+           "type": "number",
+           "maximum": 999
+         },
+         "currency": {
+           "description": "Currency of transaction in 3-char ISO format. Only SGD is supported currently.",
+           "type": "string",
+           "default": "SGD"
+         },
+         "transactionDateTime": {
+           "description": "Timestamp when the transaction was posted by Merchant",
+           "type": "string",
+           "format": "date-time"
+         }
+       },
+       "additionalProperties": false
+     },
+     "appCheckout": {
+       "description": "App checkout details for eWallet payment",
+       "type": "object",
+       "required": [
+         "merchantId",
+         "merchantTransactionReference",
+         "appRouteURL",
+         "amount"
+       ],
+       "properties": {
+         "merchantId": {
+           "description": "Merchant code or identifier.",
+           "type": "string"
+         },
+         "eWalletName": {
+           "description": "Name of the eWallet. Example: paylah",
+           "type": "string",
+           "default": "paylah"
+         },
+         "merchantTransactionReference": {
+           "description": "Transaction reference identifier for the Merchant/Customer",
+           "type": "string",
+           "maxLength": 20
+         },
+         "amount": {
+           "description": "Transaction amount for checkout.",
+           "type": "number",
+           "maximum": 999
+         },
+         "currency": {
+           "description": "Currency of transaction in 3-char ISO format. Only SGD is supported currently.",
+           "type": "string",
+           "default": "SGD"
+         },
+         "appRouteURL": {
+           "description": "The Mobile App URL which DBS will use to launch-back Merchant's Mobile App, upon successful payment in PayLah app on the same device.",
+           "type": "string"
+         },
+         "transactionDateTime": {
+           "description": "Timestamp when the transaction was posted by Merchant",
+           "type": "string",
+           "format": "date-time"
+         }
+       },
+       "additionalProperties": false
+     },
+     "checkoutResponse": {
+       "description": "Checkout response details",
+       "type": "object",
+       "properties": {
+         "bankTransactionReference": {
+           "description": "Transaction reference identifier of DBS. This has to be used for processing a refund.",
+           "type": "string",
+           "maxLength": 20
+         },
+         "status": {
+           "description": "Status of the Checkout transaction",
+           "type": "string"
+         }
+       }
+     },
+     "paymentRefund": {
+       "description": "Online checkout details for eWallet payment.",
+       "type": "object",
+       "required": [
+         "merchantId",
+         "eWalletId",
+         "refundReference",
+         "merchantCheckoutReference",
+         "bankCheckoutReference",
+         "amount"
+       ],
+       "properties": {
+         "merchantId": {
+           "description": "Merchant code or identifier.",
+           "type": "string"
+         },
+         "eWalletName": {
+           "description": "Name of the eWallet.",
+           "type": "string",
+           "default": "paylah"
+         },
+         "eWalletId": {
+           "description": "eWallet Number/identifier of the Customer to perform wallet debit. Example: 87654321",
+           "type": "string",
+           "maxLength": 8
+         },
+         "refundReference": {
+           "description": "Transaction reference identifier of Merchant for the Refund request",
+           "type": "string",
+           "maxLength": 20
+         },
+         "merchantCheckoutReference": {
+           "description": "Transaction reference identifier of Merchant for the checkout transaction",
+           "type": "string",
+           "maxLength": 20
+         },
+         "bankCheckoutReference": {
+           "description": "Transaction reference identifier of DBS Bank for the checkout transaction",
+           "type": "string",
+           "maxLength": 20
+         },
+         "amount": {
+           "description": "Refund amount.",
+           "type": "number",
+           "maximum": 999
+         },
+         "currency": {
+           "description": "Currency of transaction in 3-char ISO format. Only SGD is supported currently.",
+           "type": "string",
+           "default": "SGD"
+         },
+         "transactionDateTime": {
+           "description": "Timestamp of the transaction posted by Merchant",
+           "type": "string",
+           "format": "date-time"
+         }
+       },
+       "additionalProperties": false
+     },
+     "refundResponse": {
+       "description": "Checkout response details",
+       "type": "object",
+       "properties": {
+         "refundReference": {
+           "description": "Transaction reference identifier for the Refund.",
+           "type": "string",
+           "maxLength": 20
+         },
+         "status": {
+           "description": "Status of the Refund transaction",
+           "type": "string"
+         }
+       }
+     },
+     "paymentStatus": {
+       "description": "Payment status details for PayLah!",
+       "type": "object",
+       "required": [
+         "eWalletId",
+         "status",
+         "paymentAmount"
+       ],
+       "properties": {
+         "eWalletName": {
+           "description": "Name of the eWallet.",
+           "type": "string",
+           "default": "paylah"
+         },
+         "eWalletId": {
+           "description": "Paylah! mobile Number of the Customer. Example: 87654321",
+           "type": "string",
+           "maxLength": 8
+         },
+         "bankCheckoutReference": {
+           "description": "Transaction reference identifier of DBS Bank for the checkout transaction",
+           "type": "string",
+           "maxLength": 20
+         },
+         "status": {
+           "description": "Transaction status",
+           "type": "string"
+         },
+         "paymentAmount": {
+           "description": "Transaction amount for checkout/refund.",
+           "type": "number",
+           "maximum": 999
+         },
+         "remainingEligibleAmount": {
+           "description": "Remaining amount eligible for refund, if any.",
+           "type": "number",
+           "maximum": 999
+         },
+         "currency": {
+           "description": "Currency of transaction in 3-char ISO format. Only SGD is supported currently.",
+           "type": "string",
+           "maxLength": 3,
+           "default": "SGD"
+         },
+         "approvalCode": {
+           "description": "Approval code for the payment/refund.",
+           "type": "string",
+           "maxLength": 6
+         },
+         "transactionDateTime": {
+           "description": "Timestamp when the payment/refund transaction was performed.",
+           "type": "string",
+           "format": "date-time"
+         }
+       },
+       "additionalProperties": false
+     },
+     "expressCheckoutSetup": {
+       "description": "Express checkout setup details for eWallet",
+       "type": "object",
+       "required": [
+         "merchantId",
+         "eWalletId",
+         "merchantTransactionReference",
+         "appRouteURL"
+       ],
+       "properties": {
+         "merchantId": {
+           "description": "Merchant code or identifier.",
+           "type": "string"
+         },
+         "eWalletName": {
+           "description": "Name of the eWallet. Example: paylah",
+           "type": "string",
+           "default": "paylah"
+         },
+         "eWalletId": {
+           "description": "eWallet Number/identifier of the Customer to perform wallet debit. Example: 87654321",
+           "type": "string",
+           "maxLength": 8
+         },
+         "merchantTransactionReference": {
+           "description": "Transaction reference identifier for the Merchant/Customer",
+           "type": "string",
+           "maxLength": 20
+         },
+         "appRouteURL": {
+           "description": "The Mobile App URL which DBS will use to launch-back Merchant's Mobile App, upon successful setup in PayLah app on the same device.",
+           "type": "string"
+         }
+       },
+       "additionalProperties": false
+     },
+     "expressCheckoutSetupResponse": {
+       "description": "Express checkout setup response details",
+       "type": "object",
+       "properties": {
+         "bankTransactionReference": {
+           "description": "Transaction reference identifier of DBS. This has to be used for processing a refund.",
+           "type": "string",
+           "maxLength": 20
+         },
+         "expressSetupReference": {
+           "description": "Express set up reference of a merchant for the provided ewallet identifier. Express Checkout to be initiated using this identifier.",
+           "type": "string",
+           "maxLength": 20
+         },
+         "status": {
+           "description": "Status of the Express Checkout Setup",
+           "type": "string"
+         }
+       }
+     },
+     "expressCheckout": {
+       "description": "Express checkout details for eWallet payment",
+       "type": "object",
+       "required": [
+         "merchantId",
+         "merchantTransactionReference",
+         "expressSetupReference",
+         "amount"
+       ],
+       "properties": {
+         "merchantId": {
+           "description": "Merchant code or identifier.",
+           "type": "string"
+         },
+         "eWalletName": {
+           "description": "Name of the eWallet. Example: paylah",
+           "type": "string",
+           "default": "paylah"
+         },
+         "merchantTransactionReference": {
+           "description": "Transaction reference identifier for the Merchant/Customer",
+           "type": "string",
+           "maxLength": 20
+         },
+         "amount": {
+           "description": "Transaction amount for checkout.",
+           "type": "number",
+           "maximum": 999
+         },
+         "currency": {
+           "description": "Currency of transaction in 3-char ISO format. Only SGD is supported currently.",
+           "type": "string",
+           "default": "SGD"
+         },
+         "transactionDateTime": {
+           "description": "Timestamp when the transaction was posted by Merchant",
+           "type": "string",
+           "format": "date-time"
+         },
+         "expressSetupReference": {
+           "description": "Express set up reference of a merchant for the provided ewallet identifier. Express Checkout to be initiated using this identifier.",
+           "type": "string",
+           "maxLength": 20
+         }
+       },
+       "additionalProperties": false
+     },
+     "expressSetupStatus": {
+       "description": "Express Setup status",
+       "type": "object",
+       "required": [
+         "status"
+       ],
+       "properties": {
+         "status": {
+           "description": "Transaction status",
+           "type": "string"
+         },
+         "expressSetupReference": {
+           "description": "Express set up reference of a merchant for the provided ewallet identifier. Express Checkout to be initiated using this identifier.",
+           "type": "string",
+           "maxLength": 20
+         }
+       },
+       "additionalProperties": false
+     }
+   }
+ }

@@ -25,7 +25,7 @@ public class DeliveryOrderStatus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_order_status);
-//Firebase
+        //Firebase
         database = FirebaseDatabase.getInstance();
         deliveryrequests = database.getReference("DeliveryRequests");
 
@@ -50,7 +50,7 @@ public class DeliveryOrderStatus extends AppCompatActivity {
                 viewHolder.txtOrderStatus.setText(convertCodetoStatus(model.getStatus()));
                 viewHolder.txtOrderAddress.setText(model.getAddress());
                 viewHolder.txtOrderPhone.setText(model.getPhone());
-
+                viewHolder.txtOrderComment.setText(model.getComment());
 
             }
         };

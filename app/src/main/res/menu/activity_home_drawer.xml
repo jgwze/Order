@@ -28,10 +28,16 @@
             app:itemIconTint="@android:color/white"
             android:title="Orders" />
         <item
+            android:id="@+id/nav_payment"
+            android:icon="@drawable/ic_payment_black_24dp"
+            app:itemIconTint="@android:color/white"
+            android:title="Make Payment Via PayNow" />
+        <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             app:itemIconTint="@android:color/white"
             android:title="Sign Out" />
+
     </group>
 
 

@@ -7,4 +7,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_server_home">ServerHome</string>
+    <string name="title_activity_order_tracking">OrderTracking</string>
+    <string name="facebook_app_id">2010299782563724</string>
+    <string name="facebook_login_protocol_name">fb2010299782563724</string>
 </resources>

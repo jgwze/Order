@@ -11,27 +11,20 @@ public class DeliveryRequest {
     private String address;
     private String status;     //Status of Order... Reservation for us
     private String total;
-
-    private List<Order>foods; //list of food ordered
+    private String comment;
+    private List<Order> foods; //list of food ordered
 
     public DeliveryRequest() {
     }
 
-    public DeliveryRequest(String phone, String name, String address, String total, List<Order> foods) {
+    public DeliveryRequest(String phone, String name, String address, String total, String comment, List<Order> foods) {
         this.phone = phone;
         this.name = name;
         this.address = address;
-        this.total = total;
+        this.status = "0"; //default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed        this.total = total;
+        this.comment = comment;
         this.foods = foods;
-        this.status="0"; //default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+        this.total=total;
     }
 
     public String getPhone() {
@@ -58,12 +51,28 @@ public class DeliveryRequest {
         this.address = address;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getTotal() {
         return total;
     }
 
     public void setTotal(String total) {
         this.total = total;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public List<Order> getFoods() {

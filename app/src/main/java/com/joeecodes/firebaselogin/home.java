@@ -1,6 +1,7 @@
 package com.joeecodes.firebaselogin;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,9 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.joeecodes.firebaselogin.Common.Common;
 import com.joeecodes.firebaselogin.Model.Category;
 import com.joeecodes.firebaselogin.Interface.ItemClickListener;
+import com.joeecodes.firebaselogin.Service.ListentoOrder;
 import com.joeecodes.firebaselogin.ViewHolder.MenuViewHolder;
 
+
 import com.squareup.picasso.Picasso;
+
+import io.paperdb.Paper;
 
 public class home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +42,6 @@ public class home extends AppCompatActivity
     FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
 
     TextView txtFullName;
-
     //View
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
@@ -58,6 +62,9 @@ public class home extends AppCompatActivity
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
 //        category=FirebaseDatabase.getInstance().getReference().child("Category");
+
+        //Init Paper
+        Paper.init(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +96,14 @@ public class home extends AppCompatActivity
         recycler_menu.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
+        if(Common.IsConnectedToInternet(this))
         loadMenu();
+        else{ Toast.makeText(home.this, "Please Check Your Connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Register Notification Service
+        Intent service = new Intent(home.this, ListentoOrder.class);
+        startService(service);
     }
     private void loadMenu(){
          adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
@@ -102,9 +116,9 @@ public class home extends AppCompatActivity
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
 //                        Toast.makeText(home.this,""+clickItem.getName(),Toast.LENGTH_SHORT).show();
-                        //Get CategoryId and send to new Activity
+                        //Get categoryId and send to new Activity
                         Intent foodList = new Intent(home.this,FoodList.class);
-                        foodList.putExtra("CategoryId",adapter.getRef(position).getKey());
+                        foodList.putExtra("categoryId",adapter.getRef(position).getKey());
                         startActivity(foodList);
 
 
@@ -136,6 +150,8 @@ public class home extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.refresh)
+            loadMenu();
 
         return super.onOptionsItemSelected(item);
     }
@@ -160,12 +176,20 @@ public class home extends AppCompatActivity
             Intent orderIntent = new Intent(home.this,OrderStatus.class);
             startActivity(orderIntent);
 
+        } else if (id == R.id.nav_payment) {
+            Intent paymentIntent = new Intent(Intent.ACTION_VIEW);
+            paymentIntent.setData(Uri.parse("http://www.dbs.com.sg/personal/mobile/paylink/index.html?tranRef=LbQ1NjDvsc"));
+            startActivity(paymentIntent);
+
+
         } else if (id == R.id.nav_log_out) {
+            //Delete Rmbr user & password. Else nobody can log out hahhaha
+            Paper.book().destroy();
             //Log User out of account
-            Intent signIn = new Intent(home.this,MainActivity.class);
-            signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(signIn);
-            System.exit(0);
+            Intent mainIntent = new Intent(home.this,MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+//            System.exit(0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

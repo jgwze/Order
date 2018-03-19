@@ -13,7 +13,7 @@ import com.joeecodes.firebaselogin.R;
 
 public class DeliveryOrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderStatus,txtOrderPhone,txtOrderAddress;
+    public TextView txtOrderId,txtOrderStatus,txtOrderPhone,txtOrderAddress,txtOrderComment;
     private ItemClickListener itemClickListener;
     public DeliveryOrderViewHolder(View itemView) {
         super(itemView);
@@ -21,6 +21,7 @@ public class DeliveryOrderViewHolder extends RecyclerView.ViewHolder implements 
         txtOrderId = (TextView)itemView.findViewById(R.id.order_id);
         txtOrderStatus = (TextView)itemView.findViewById(R.id.order_status);
         txtOrderPhone = (TextView)itemView.findViewById(R.id.order_phone);
+        txtOrderComment = (TextView)itemView.findViewById(R.id.order_comment);
 
         itemView.setOnClickListener(this);
     }

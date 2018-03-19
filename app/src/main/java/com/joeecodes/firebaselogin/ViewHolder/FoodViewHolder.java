@@ -15,7 +15,7 @@ import com.joeecodes.firebaselogin.R;
 public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView food_name;
-    public ImageView food_image;
+    public ImageView food_image,share_image;
 
     private ItemClickListener itemClickListener;
 
@@ -27,6 +27,8 @@ public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         super(itemView);
         food_name = (TextView)itemView.findViewById(R.id.food_name);
         food_image = (ImageView)itemView.findViewById(R.id.food_image);
+        share_image = (ImageView)itemView.findViewById(R.id.btnShare);
+
         itemView.setOnClickListener(this);
     }
     @Override

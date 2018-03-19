@@ -26,7 +26,6 @@
     <string-array name="spinnerSelectUserStaff">
         <item>User</item>
         <item>Staff</item>
-
     </string-array>
 
 </resources>

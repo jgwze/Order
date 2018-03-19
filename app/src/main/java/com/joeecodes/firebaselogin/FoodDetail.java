@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.joeecodes.firebaselogin.Common.Common;
 import com.joeecodes.firebaselogin.Database.Database;
 import com.joeecodes.firebaselogin.Model.Food;
 import com.joeecodes.firebaselogin.Model.Order;
@@ -76,7 +77,11 @@ public class FoodDetail extends AppCompatActivity {
             foodId = getIntent().getStringExtra("foodId");
         if(!foodId.isEmpty())
         {
+            if(Common.IsConnectedToInternet(getBaseContext()))
             getDetailFood(foodId);
+            else{ Toast.makeText(FoodDetail.this, "Please Check Your Connection", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
     }
 
