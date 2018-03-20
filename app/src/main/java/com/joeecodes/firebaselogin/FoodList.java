@@ -1,5 +1,6 @@
 package com.joeecodes.firebaselogin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -26,6 +27,9 @@ import com.joeecodes.firebaselogin.ViewHolder.FoodViewHolder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class FoodList extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -40,6 +44,11 @@ public class FoodList extends AppCompatActivity {
     //Facebook Share
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     //Create Target From Picasso
     Target target = new Target() {
@@ -67,6 +76,9 @@ public class FoodList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_food_list);
 
         //Init Facebook Share
@@ -101,6 +113,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void populateViewHolder(FoodViewHolder viewHolder, final Food model, int position) {
                 viewHolder.food_name.setText(model.getName());
+                viewHolder.food_price.setText(String.format("$ %s",model.getPrice().toString()));
                 Picasso.with(getBaseContext()).load(model.getImage()).into(viewHolder.food_image);
 
                 //Event for btnShare onClick

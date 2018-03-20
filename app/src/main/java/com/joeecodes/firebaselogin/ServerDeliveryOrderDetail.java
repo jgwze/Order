@@ -1,5 +1,6 @@
 package com.joeecodes.firebaselogin;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 import com.joeecodes.firebaselogin.Common.Common;
 import com.joeecodes.firebaselogin.ViewHolder.DeliveryOrderDetailAdapter;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ServerDeliveryOrderDetail extends AppCompatActivity {
 
     TextView order_id,order_phone,order_address,order_total,order_comment;
@@ -17,8 +21,16 @@ public class ServerDeliveryOrderDetail extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_server_delivery_order_detail);
 
         order_id=(TextView)findViewById(R.id.order_id);

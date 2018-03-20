@@ -1,10 +1,12 @@
 package com.joeecodes.firebaselogin;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Typeface;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -41,22 +43,36 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import io.paperdb.Paper;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
     EditText edtPhone, edtPassword;
     Button btnSignIn,btnSignUp;
     CheckBox cbRemember;
+    TextView txtSlogan;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/BebasNeue Regular.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_main);
 
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        txtSlogan = (TextView)findViewById(R.id.txtSlogan);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/Wonderbar Demo.otf");
+        txtSlogan.setTypeface(face);
         cbRemember = (CheckBox) findViewById(R.id.cbRemember);
 
         //Init Paper
@@ -78,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                     {
                         Paper.book().write(Common.USER_KEY,edtPhone.getText().toString());
                         Paper.book().write(Common.PWD_KEY,edtPassword.getText().toString());
-
                     }
 
                     table_user.addValueEventListener(new ValueEventListener() {
@@ -89,13 +104,10 @@ public class MainActivity extends AppCompatActivity {
                                 // Get Information
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 user.setPhone((edtPhone.getText().toString())); //set Phone
-//                            Toast.makeText(MainActivity.this, ""+user.getPhone(), Toast.LENGTH_SHORT).show();
                                 if ((user.getPassword().equals(edtPassword.getText().toString())) && (user.getStaffaccount().equals("false")))
-//                            if (user.getPassword().equals(edtPassword.getText().toString()))
                                 {
-                                    ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait..");
-//                                Toast.makeText(MainActivity.this, "Sign in successfully !", Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(MainActivity.this, ""+user.getStaffaccount(), Toast.LENGTH_SHORT).show();
+                                    ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "Loading",
+                                            "Welcome Back! Please Wait..");
 
                                     Intent homeIntent = new Intent(MainActivity.this, home.class);
                                     Common.currentUser = user;
@@ -104,18 +116,13 @@ public class MainActivity extends AppCompatActivity {
 
                                 } else if ((user.getPassword().equals(edtPassword.getText().toString())) && (user.getStaffaccount().equals("true"))) {
                                     ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "Loading", "Boss");
-//                                Toast.makeText(MainActivity.this, "Sign in successfully !", Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(MainActivity.this, ""+user.getStaffaccount(), Toast.LENGTH_SHORT).show();
 
                                     Intent serverhomeIntent = new Intent(MainActivity.this, ServerHome.class);
                                     Common.currentUser = user; //send user info common.currentUser for later use
                                     startActivity(serverhomeIntent);
                                     finish();
-
                                 } else {
-
                                     Toast.makeText(MainActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-
                                 }
                             } else {
                                 Toast.makeText(MainActivity.this, "User does not exist in Database", Toast.LENGTH_SHORT).show();
@@ -124,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
                 }

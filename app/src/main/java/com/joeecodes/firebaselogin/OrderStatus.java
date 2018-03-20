@@ -1,5 +1,6 @@
 package com.joeecodes.firebaselogin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,9 @@ import com.joeecodes.firebaselogin.Model.DeliveryRequest;
 import com.joeecodes.firebaselogin.Model.Request;
 import com.joeecodes.firebaselogin.ViewHolder.OrderViewHolder;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class OrderStatus extends AppCompatActivity {
     Button btnViewDeliveryOrders;
 public RecyclerView recyclerView;
@@ -29,8 +33,17 @@ FirebaseDatabase database;
 DatabaseReference requests;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_order_status);
 //        btnViewDeliveryOrders = (Button) findViewById(R.id.ViewDeliveryOrders);
 

@@ -1,5 +1,6 @@
 package com.joeecodes.firebaselogin;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,9 @@ import com.joeecodes.firebaselogin.Model.DeliveryRequest;
 import com.joeecodes.firebaselogin.ViewHolder.DeliveryOrderViewHolder;
 import com.joeecodes.firebaselogin.ViewHolder.ServerDeliveryOrderViewHolder;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ServerDeliveryOrderStatus extends AppCompatActivity {
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
@@ -37,8 +41,16 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
     MaterialSpinner spinner;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_server_delivery_order_status);
 
         //Init Firebase

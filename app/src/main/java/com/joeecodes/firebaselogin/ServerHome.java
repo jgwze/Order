@@ -1,6 +1,7 @@
 package com.joeecodes.firebaselogin;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,6 +52,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
+import io.paperdb.Paper;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static com.joeecodes.firebaselogin.Common.Common.PICK_IMAGE_REQUEST;
 
 public class ServerHome extends AppCompatActivity
@@ -75,9 +81,18 @@ public class ServerHome extends AppCompatActivity
     Uri saveUri;
 
     DrawerLayout drawer;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_server_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Menu Management");
@@ -88,6 +103,9 @@ public class ServerHome extends AppCompatActivity
         category = database.getReference("Category");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        //Init Paper
+        Paper.init(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +132,11 @@ public class ServerHome extends AppCompatActivity
         //Initiate View to Load Menu
         recycler_menu=(RecyclerView)findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
-        recycler_menu.setLayoutManager(layoutManager);
+
+//        layoutManager=new LinearLayoutManager(this);
+//        recycler_menu.setLayoutManager(layoutManager);
+
+        recycler_menu.setLayoutManager(new GridLayoutManager(this,2));         //one row 2 menu images
         loadMenu();
     }
 
@@ -200,11 +221,13 @@ public class ServerHome extends AppCompatActivity
             startActivity(ServerorderIntent);
 
         } else if (id == R.id.nav_log_out) {
+            //Delete Rmbr user & password. Else nobody can log out hahhaha
+            Paper.book().destroy();
             //Log User out of account
-            Intent signIn = new Intent(ServerHome.this,MainActivity.class);
-            signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(signIn);
-            System.exit(0);
+            Intent mainIntent = new Intent(ServerHome.this,MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+//            System.exit(0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -315,9 +338,12 @@ public class ServerHome extends AppCompatActivity
                             imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    newCategory = new Category(
-                                            edtAddNewCategoryName.getText().toString(),
-                                            uri.toString());
+                                    newCategory = new Category();
+//                                            edtAddNewCategoryName.getText().toString(),
+//                                            uri.toString());
+                                            newCategory.setName(edtAddNewCategoryName.getText().toString());
+                                            newCategory.setImage(uri.toString());
+//                                    Toast.makeText(ServerHome.this, ""+uri.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

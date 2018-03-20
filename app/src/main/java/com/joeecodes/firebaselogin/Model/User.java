@@ -1,9 +1,5 @@
 package com.joeecodes.firebaselogin.Model;
 
-/**
- * Created by Lenovo on 4/3/2018.
- */
-
 public class User {
 
     private String name;

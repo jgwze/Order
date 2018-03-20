@@ -70,7 +70,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_alignParentBottom="true"
                 android:layout_height="40dp"
-                android:background="@color/btnSignActive"/>
+                android:background="@color/btnSignUp"/>
 
         </RelativeLayout>
 

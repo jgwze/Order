@@ -1,6 +1,7 @@
 package com.joeecodes.firebaselogin;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,6 +42,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ServerFoodList extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -68,8 +72,16 @@ public class ServerFoodList extends AppCompatActivity {
     Uri saveUri;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_server_food_list);
 
         //Firebase

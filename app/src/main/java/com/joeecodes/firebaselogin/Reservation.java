@@ -2,6 +2,7 @@ package com.joeecodes.firebaselogin;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +30,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class Reservation extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
     EditText edtPhone,edtName,edtPax,edtReservationTime;
     Calendar dateTime=Calendar.getInstance();
@@ -38,8 +42,16 @@ public class Reservation extends AppCompatActivity implements DatePickerDialog.O
     Button btnMakeReservation;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/BebasNeue Regular.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_reservation);
 
         // Init Firebase to submit Reservations

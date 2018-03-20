@@ -1,5 +1,6 @@
 package com.joeecodes.firebaselogin;
 
+import android.content.Context;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,9 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class FoodDetail extends AppCompatActivity {
 
     TextView food_name, food_price, food_description;
@@ -37,9 +41,19 @@ public class FoodDetail extends AppCompatActivity {
     DatabaseReference foods;
 
     Food currentFood;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_food_detail);
 
         //Firebase

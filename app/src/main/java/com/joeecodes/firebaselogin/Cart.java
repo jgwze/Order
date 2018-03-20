@@ -1,6 +1,7 @@
 package com.joeecodes.firebaselogin;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class Cart extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -43,9 +47,19 @@ public class Cart extends AppCompatActivity {
 
     List<Order> cart = new ArrayList<>();
     CartAdapter adapter;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+        .setDefaultFontPath("fonts/Assistant-SemiBold.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_cart);
         
         //init Firebase

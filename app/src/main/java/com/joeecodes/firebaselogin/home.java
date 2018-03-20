@@ -1,10 +1,12 @@
 package com.joeecodes.firebaselogin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,6 +34,8 @@ import com.joeecodes.firebaselogin.ViewHolder.MenuViewHolder;
 import com.squareup.picasso.Picasso;
 
 import io.paperdb.Paper;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,16 +51,20 @@ public class home extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Implement font before setContentView
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
-
-        //Get PassUserFullName from MainActivity main
-        /*Intent i = getIntent();
-        String PassUserFullName = i.getStringExtra("PassUserFullName");*/
 
         //init Firebase
         database = FirebaseDatabase.getInstance();
@@ -94,8 +102,11 @@ public class home extends AppCompatActivity
         //Initiate View to Load Menu
         recycler_menu=(RecyclerView)findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
-        recycler_menu.setLayoutManager(layoutManager);
+        /*layoutManager=new LinearLayoutManager(this);
+        recycler_menu.setLayoutManager(layoutManager);*/
+        recycler_menu.setLayoutManager(new GridLayoutManager(this,2));//one row 2 menu images
+
+
         if(Common.IsConnectedToInternet(this))
         loadMenu();
         else{ Toast.makeText(home.this, "Please Check Your Connection", Toast.LENGTH_SHORT).show();
