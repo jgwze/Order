@@ -62,7 +62,7 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         if (getIntent()==null)
-        loadOrders(Common.currentUser.getPhone()); //Load all Delivery Orders
+            loadOrders(Common.currentUser.getPhone()); //Load all Delivery Orders
         else
             loadOrders(getIntent().getStringExtra("userPhone"));
     }
@@ -87,14 +87,13 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        if(!isLongClick)
-                        {
-                            Intent trackingOrder = new Intent(ServerDeliveryOrderStatus.this,OrderTracking.class);
-                            Common.currentRequest=model;
-                            startActivity(trackingOrder);
-                        }
-                        else
-                        {
+                        if(!isLongClick) {
+//                            Intent trackingOrder = new Intent(ServerDeliveryOrderStatus.this, OrderTracking.class);
+//                            Common.currentRequest = model;
+//                            startActivity(trackingOrder);
+//                        }
+//                        else
+//                        {
                             Intent orderDetailIntent = new Intent(ServerDeliveryOrderStatus.this,ServerDeliveryOrderDetail.class);
                             Common.currentRequest=model;
                             orderDetailIntent.putExtra("OrderId",adapter.getRef(position).getKey());
@@ -111,9 +110,10 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if(item.getTitle().equals(Common.UPDATE)){
-        showUpdateDialog(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));}
-        else if(item.getTitle().equals(Common.DELETE)){
-        deleteOrder(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));}
+            showUpdateDialog(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));}
+        else if (item.getTitle().equals(Common.DELETE)){
+            deleteOrder(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));}
+//        else{ Toast.makeText(ServerDeliveryOrderStatus.this, "View Details", Toast.LENGTH_SHORT).show();}
         return super.onContextItemSelected(item);
     }
 

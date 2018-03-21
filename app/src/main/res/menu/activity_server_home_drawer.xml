@@ -18,10 +18,10 @@
             android:title="Make a Reservation" />
 
         <item
-            android:id="@+id/nav_cart"
+            android:id="@+id/nav_location"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
             app:itemIconTint="@android:color/white"
-            android:title="Cart" />
+            android:title="Delivery Location" />
         <item
             android:id="@+id/nav_orders"
             android:icon="@drawable/ic_access_time_black_24dp"

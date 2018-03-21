@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -67,13 +67,14 @@
         <activity
             android:name=".OrderTracking"
             android:label="@string/title_activity_order_tracking" />
-        <activity android:name=".ServerDeliveryOrderDetail"></activity>
+        <activity android:name=".ServerDeliveryOrderDetail" />
 
         <provider
-            android:authorities="com.facebook.app.FacebookContentProvider2010299782563724"
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider2010299782563724"
+            android:exported="true" />
 
+        <activity android:name=".ServerLocation"></activity>
     </application>
 
 </manifest>

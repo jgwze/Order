@@ -212,9 +212,9 @@ public class ServerHome extends AppCompatActivity
             /*Intent reserveIntent = new Intent(home.this,Reservation.class);
             startActivity(reserveIntent);*/
 
-        } else if (id == R.id.nav_cart) {
-            /*Intent cartIntent = new Intent(home.this,Cart.class);
-            startActivity(cartIntent);*/
+        } else if (id == R.id.nav_location) {
+            Intent ServerLocationIntent = new Intent(ServerHome.this,ServerLocation.class);
+            startActivity(ServerLocationIntent);
 
         } else if (id == R.id.nav_orders) {
             Intent ServerorderIntent = new Intent(ServerHome.this,ServerDeliveryOrderStatus.class);
