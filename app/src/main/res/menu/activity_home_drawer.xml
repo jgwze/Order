@@ -37,8 +37,5 @@
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             app:itemIconTint="@android:color/white"
             android:title="Sign Out" />
-
     </group>
-
-
 </menu>
