@@ -8,11 +8,6 @@
     tools:context="com.joeecodes.firebaselogin.home"
     tools:showIn="@layout/app_bar_home">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:layout_alignParentTop="true"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_menu"
         android:scrollbars="vertical"
