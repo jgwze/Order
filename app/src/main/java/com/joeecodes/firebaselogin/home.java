@@ -30,7 +30,6 @@ import com.joeecodes.firebaselogin.Interface.ItemClickListener;
 import com.joeecodes.firebaselogin.Service.ListentoOrder;
 import com.joeecodes.firebaselogin.ViewHolder.MenuViewHolder;
 
-
 import com.squareup.picasso.Picasso;
 
 import io.paperdb.Paper;
@@ -106,7 +105,6 @@ public class home extends AppCompatActivity
         recycler_menu.setLayoutManager(layoutManager);*/
         recycler_menu.setLayoutManager(new GridLayoutManager(this,2));//one row 2 menu images
 
-
         if(Common.IsConnectedToInternet(this))
         loadMenu();
         else{ Toast.makeText(home.this, "Please Check Your Connection", Toast.LENGTH_SHORT).show();
@@ -131,8 +129,6 @@ public class home extends AppCompatActivity
                         Intent foodList = new Intent(home.this,FoodList.class);
                         foodList.putExtra("categoryId",adapter.getRef(position).getKey());
                         startActivity(foodList);
-
-
                     }
                 });
             }
@@ -140,7 +136,6 @@ public class home extends AppCompatActivity
         //adapter.notifyDataSetChanged();
         recycler_menu.setAdapter(adapter);
     }
-//
 
     @Override
     public void onBackPressed() {
@@ -163,7 +158,6 @@ public class home extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.refresh)
             loadMenu();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -192,7 +186,6 @@ public class home extends AppCompatActivity
             paymentIntent.setData(Uri.parse("http://www.dbs.com.sg/personal/mobile/paylink/index.html?tranRef=LbQ1NjDvsc"));
             startActivity(paymentIntent);
 
-
         } else if (id == R.id.nav_log_out) {
             //Delete Rmbr user & password. Else nobody can log out hahhaha
             Paper.book().destroy();
@@ -202,7 +195,6 @@ public class home extends AppCompatActivity
             startActivity(mainIntent);
 //            System.exit(0);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
