@@ -215,9 +215,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
 
                     } else {
-
                         Toast.makeText(MainActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "User does not exist in Database", Toast.LENGTH_SHORT).show();
@@ -226,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
