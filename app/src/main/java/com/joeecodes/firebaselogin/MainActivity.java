@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
                                 // Get Information
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 user.setPhone((edtPhone.getText().toString())); //set Phone
-                                if ((user.getPassword().equals(edtPassword.getText().toString())) && (user.getStaffaccount().equals("false")))
+                                if ((user.getPassword().equals(edtPassword.getText().toString())) 
+                                    && (user.getStaffaccount().equals("false")))
                                 {
                                     ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "Loading",
                                             "Welcome Back! Please Wait..");
@@ -114,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(homeIntent);
                                     finish();
 
-                                } else if ((user.getPassword().equals(edtPassword.getText().toString())) && (user.getStaffaccount().equals("true"))) {
+                                } else if ((user.getPassword().equals(edtPassword.getText().toString())) 
+                                           && (user.getStaffaccount().equals("true"))) {
                                     ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "Loading", "Boss");
 
                                     Intent serverhomeIntent = new Intent(MainActivity.this, ServerHome.class);
@@ -204,10 +206,9 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(homeIntent);
                         finish();
 
-                    } else if ((user.getPassword().equals(edtPassword.getText().toString())) && (user.getStaffaccount().equals("true"))) {
+                    } else if ((user.getPassword().equals(edtPassword.getText().toString())) 
+                               && (user.getStaffaccount().equals("true"))) {
                         ProgressDialog dialog = ProgressDialog.show(MainActivity.this, "Loading", "Boss");
-//                                Toast.makeText(MainActivity.this, "Sign in successfully !", Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(MainActivity.this, ""+user.getStaffaccount(), Toast.LENGTH_SHORT).show();
 
                         Intent serverhomeIntent = new Intent(MainActivity.this, ServerHome.class);
                         Common.currentUser = user; //send user info common.currentUser for later use
