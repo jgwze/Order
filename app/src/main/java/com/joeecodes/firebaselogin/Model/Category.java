@@ -1,9 +1,5 @@
 package com.joeecodes.firebaselogin.Model;
 
-/**
- * Created by Lenovo on 5/2/2018.
- */
-
 public class Category {
     private String name;
     private String image;
@@ -31,5 +27,4 @@ public class Category {
     public void setImage(String image) {
         this.image = image;
     }
-
 }
