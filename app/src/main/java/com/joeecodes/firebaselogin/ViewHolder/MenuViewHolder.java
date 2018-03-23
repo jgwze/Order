@@ -11,10 +11,6 @@ import com.joeecodes.firebaselogin.R;
 
 import org.w3c.dom.Text;
 
-/**
- * Created by Lenovo on 5/2/2018.
- */
-
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     public TextView txtMenuName;
