@@ -8,10 +8,6 @@ import android.widget.TextView;
 import com.joeecodes.firebaselogin.Interface.ItemClickListener;
 import com.joeecodes.firebaselogin.R;
 
-/**
- * Created by Lenovo on 8/2/2018.
- */
-
 public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView food_name,food_price;
