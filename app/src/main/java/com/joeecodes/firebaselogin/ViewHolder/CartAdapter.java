@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener{
     public TextView txt_cart_name,txt_price;
     public ImageView img_cart_count;
@@ -41,7 +40,6 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
     }
 
     @Override
@@ -52,7 +50,6 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 }
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
-
     private List<Order> listData = new ArrayList<>();
     private Context context;
 
