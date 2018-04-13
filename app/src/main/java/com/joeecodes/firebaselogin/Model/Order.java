@@ -1,9 +1,5 @@
 package com.joeecodes.firebaselogin.Model;
 
-/**
- * Created by Lenovo on 5/3/2018.
- */
-
 public class Order {
     private String ProductId;
     private String ProductName;
