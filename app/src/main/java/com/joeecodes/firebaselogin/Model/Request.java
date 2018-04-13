@@ -2,10 +2,6 @@ package com.joeecodes.firebaselogin.Model;
 
 import java.util.List;
 
-/**
- * Created by Lenovo on 6/3/2018.
- */
-
 public class Request {
     private String phone;
     private String name;
