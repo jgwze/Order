@@ -1,9 +1,5 @@
 package com.joeecodes.firebaselogin.Model;
 
-/**
- * Created by Lenovo on 8/3/2018.
- */
-
 public class Reserve {
     private String phone;
     private String name;
