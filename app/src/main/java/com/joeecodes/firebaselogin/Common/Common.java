@@ -13,10 +13,6 @@ import com.joeecodes.firebaselogin.Model.User;
 import com.joeecodes.firebaselogin.Remote.GeoCoordinatesInter;
 import com.joeecodes.firebaselogin.Remote.RetrofitClient;
 
-/**
- * Created by Lenovo on 4/3/2018.
- */
-
 public class Common {
     public static User currentUser;
     public static DeliveryRequest currentRequest;
@@ -28,7 +24,6 @@ public class Common {
 
     public static final String USER_KEY = "User";
     public static final String PWD_KEY = "Password";
-
 
     public static final String baseUrl = "https://maps.googleapis.com";
 
@@ -99,5 +94,4 @@ public class Common {
 
         return  scaledBitmap;
     }
-
 }
