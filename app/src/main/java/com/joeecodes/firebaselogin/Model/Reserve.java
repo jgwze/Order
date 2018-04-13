@@ -8,6 +8,7 @@ public class Reserve {
     private String phone;
     private String name;
     private String pax;
+    private String confirmation;     //Status of reservation
 
     public Reserve() {
     }
@@ -16,6 +17,7 @@ public class Reserve {
         this.phone = phone;
         this.name = name;
         this.pax = pax;
+        this.confirmation = "0"; //default is 0. 0:Awaiting Confirmation 1:Accepted 2. Rejected
     }
 
     public String getPhone() {
@@ -40,6 +42,14 @@ public class Reserve {
 
     public void setPax(String pax) {
         this.pax = pax;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
     }
 }
 

@@ -1,15 +1,11 @@
 package com.joeecodes.firebaselogin.Model;
 import java.util.List;
 
-/**
- * Created by Lenovo on 6/3/2018.
- */
-
 public class DeliveryRequest {
     private String phone;
     private String name;
     private String address;
-    private String status;     //Status of Order... Reservation for us
+    private String status;     //Status of Order
     private String total;
     private String comment;
     private List<Order> foods; //list of food ordered
@@ -21,7 +17,7 @@ public class DeliveryRequest {
         this.phone = phone;
         this.name = name;
         this.address = address;
-        this.status = "0"; //default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed        this.total = total;
+        this.status = "0"; //default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed
         this.comment = comment;
         this.foods = foods;
         this.total=total;

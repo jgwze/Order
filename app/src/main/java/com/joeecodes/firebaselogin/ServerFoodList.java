@@ -120,16 +120,16 @@ public class ServerFoodList extends AppCompatActivity {
         alert.setTitle("Add new Food");
         alert.setMessage("Please fill in all fields :");
         LayoutInflater inflater = this.getLayoutInflater();
-        View add_category = inflater.inflate(R.layout.add_new_food_layout, null);
+        View add_food = inflater.inflate(R.layout.add_new_food_layout, null);
 
-        edtAddNewCategoryName = add_category.findViewById(R.id.edtAddNewCategoryName);
-        edtServerDescription = add_category.findViewById(R.id.edtServerDescription);
-        edtServerDiscount = add_category.findViewById(R.id.edtServerDiscount);
-        edtServerPrice = add_category.findViewById(R.id.edtServerPrice);
+        edtAddNewCategoryName = add_food.findViewById(R.id.edtAddNewCategoryName);
+        edtServerDescription = add_food.findViewById(R.id.edtServerDescription);
+        edtServerDiscount = add_food.findViewById(R.id.edtServerDiscount);
+        edtServerPrice = add_food.findViewById(R.id.edtServerPrice);
 
-        btnBrowseFile = add_category.findViewById(R.id.btnBrowseFile);
-        btnUpload = add_category.findViewById(R.id.btnUpload);
-        showValid= add_category.findViewById(R.id.showValid);
+        btnBrowseFile = add_food.findViewById(R.id.btnBrowseFile);
+        btnUpload = add_food.findViewById(R.id.btnUpload);
+        showValid= add_food.findViewById(R.id.showValid);
 
         btnBrowseFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +145,7 @@ public class ServerFoodList extends AppCompatActivity {
             }
         });
 
-        alert.setView(add_category);
+        alert.setView(add_food);
 
         alert.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
             @Override
@@ -289,15 +289,15 @@ public class ServerFoodList extends AppCompatActivity {
     private void showUpdateFoodDialog(final String key, final Food item) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(ServerFoodList.this);
         alert.setIcon(R.drawable.ic_shopping_cart_black_24dp);
-        alert.setTitle("Edit category");
+        alert.setTitle("Edit Food Item");
         alert.setMessage("Please fill in all fields :");
         LayoutInflater inflater = this.getLayoutInflater();
-        View add_category = inflater.inflate(R.layout.add_new_food_layout, null);
+        View add_food = inflater.inflate(R.layout.add_new_food_layout, null);
 
-        edtAddNewCategoryName = add_category.findViewById(R.id.edtAddNewCategoryName);
-        edtServerDescription = add_category.findViewById(R.id.edtServerDescription);
-        edtServerDiscount = add_category.findViewById(R.id.edtServerDiscount);
-        edtServerPrice = add_category.findViewById(R.id.edtServerPrice);
+        edtAddNewCategoryName = add_food.findViewById(R.id.edtAddNewCategoryName);
+        edtServerDescription = add_food.findViewById(R.id.edtServerDescription);
+        edtServerDiscount = add_food.findViewById(R.id.edtServerDiscount);
+        edtServerPrice = add_food.findViewById(R.id.edtServerPrice);
 
         //Set Default value for Update Dialog
 
@@ -307,9 +307,9 @@ public class ServerFoodList extends AppCompatActivity {
         edtServerPrice.setText(item.getPrice());
 
 
-        btnBrowseFile = add_category.findViewById(R.id.btnBrowseFile);
-        btnUpload = add_category.findViewById(R.id.btnUpload);
-        showValid= add_category.findViewById(R.id.showValid);
+        btnBrowseFile = add_food.findViewById(R.id.btnBrowseFile);
+        btnUpload = add_food.findViewById(R.id.btnUpload);
+        showValid= add_food.findViewById(R.id.showValid);
 
         btnBrowseFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,7 +325,7 @@ public class ServerFoodList extends AppCompatActivity {
             }
         });
 
-        alert.setView(add_category);
+        alert.setView(add_food);
 
         alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
             @Override

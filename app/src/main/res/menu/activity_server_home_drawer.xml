@@ -15,18 +15,20 @@
             android:id="@+id/nav_reservation"
             android:icon="@drawable/ic_event_note_black_24dp"
             app:itemIconTint="@android:color/white"
-            android:title="Make a Reservation" />
+            android:title="View Reservation List" />
+
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_access_time_black_24dp"
+            app:itemIconTint="@android:color/white"
+            android:title="View Orders" />
 
         <item
             android:id="@+id/nav_location"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
             app:itemIconTint="@android:color/white"
-            android:title="Delivery Location" />
-        <item
-            android:id="@+id/nav_orders"
-            android:icon="@drawable/ic_access_time_black_24dp"
-            app:itemIconTint="@android:color/white"
-            android:title="Orders" />
+            android:title="Track Orders" />
+
         <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_exit_to_app_black_24dp"

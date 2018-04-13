@@ -16,13 +16,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.joeecodes.firebaselogin.Common.Common;
 import com.joeecodes.firebaselogin.DeliveryOrderStatus;
+import com.joeecodes.firebaselogin.MainActivity;
 import com.joeecodes.firebaselogin.Model.DeliveryRequest;
+import com.joeecodes.firebaselogin.Model.Reserve;
 import com.joeecodes.firebaselogin.R;
 
-public class ListentoOrder extends Service implements ChildEventListener {
+public class ListentoReservation extends Service implements ChildEventListener {
     FirebaseDatabase db;
-    DatabaseReference deliveryrequests;
-    public ListentoOrder() {
+    DatabaseReference reservations;
+    public ListentoReservation() {
     }
 
     @Override
@@ -32,12 +34,12 @@ public class ListentoOrder extends Service implements ChildEventListener {
     public void onCreate() {
         super.onCreate();
         db = FirebaseDatabase.getInstance();
-        deliveryrequests = db.getReference("DeliveryRequests");
+        reservations = db.getReference("Reservation");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        deliveryrequests.addChildEventListener(this);
+        reservations.addChildEventListener(this);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -48,20 +50,20 @@ public class ListentoOrder extends Service implements ChildEventListener {
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        DeliveryRequest deliveryRequest =dataSnapshot.getValue(DeliveryRequest.class);
-        showNotification(dataSnapshot.getKey(),deliveryRequest);
+        Reserve reservation =dataSnapshot.getValue(Reserve.class);
+        showNotification(dataSnapshot.getKey(),reservation);
     }
 
-    private void showNotification(String key, DeliveryRequest deliveryRequest) {
-        Intent intent = new Intent(getBaseContext(), DeliveryOrderStatus.class);
-        intent.putExtra("userPhone",deliveryRequest.getPhone());
+    private void showNotification(String key, Reserve reservation) {
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        intent.putExtra("userPhone",reservation.getPhone());
         PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
         builder.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL).setWhen(System.currentTimeMillis())
                 .setTicker("Joee")
-                .setContentInfo("Your order is updated")
-                .setContentText("Order #"+key+" is "+ Common.convertCodetoStatus(deliveryRequest.getStatus()))
+                .setContentInfo("Reservation Status")
+                .setContentText("Your Reservation for "+key+" is "+ Common.convertConfirmationStatus(reservation.getConfirmation()))
                 .setContentIntent(contentIntent)
                 .setContentInfo("Info")
                 .setSmallIcon(R.mipmap.ic_launcher);

@@ -79,7 +79,7 @@ public class DeliveryOrderStatus extends AppCompatActivity {
         else if(status.equals("1"))
             return "On the Way";
         else
-            return "Shipped";
+            return "Received";
     }
 
 

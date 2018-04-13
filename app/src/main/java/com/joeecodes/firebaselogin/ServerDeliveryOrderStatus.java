@@ -120,7 +120,6 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
     private void deleteOrder(String key, DeliveryRequest item) {
         deliveryrequests.child(key).removeValue();
         Toast.makeText(ServerDeliveryOrderStatus.this,"Delivery Request"+key+ "was deleted", Toast.LENGTH_SHORT).show();
-
     }
 
     private void showUpdateDialog (String key, final DeliveryRequest item) {
@@ -132,11 +131,11 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
         final View view = inflater.inflate(R.layout.server_update_delivery_order_layout,null);
 
         spinner = (MaterialSpinner)view.findViewById(R.id.statusSpinner);
-        spinner.setItems("Placed","On The Way","Shipped");
+        spinner.setItems("Placed","On The Way","Received");
 
         alertDialog.setView(view);
         final String localkey = key;
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 dialogInterface.dismiss();
@@ -146,7 +145,7 @@ public class ServerDeliveryOrderStatus extends AppCompatActivity {
 
             }
         });
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 dialogInterface.dismiss();

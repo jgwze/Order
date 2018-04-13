@@ -209,16 +209,16 @@ public class ServerHome extends AppCompatActivity
         if (id == R.id.nav_menu) {
             // Handle the camera action
         } else if (id == R.id.nav_reservation) {
-            /*Intent reserveIntent = new Intent(home.this,Reservation.class);
-            startActivity(reserveIntent);*/
-
-        } else if (id == R.id.nav_location) {
-            Intent ServerLocationIntent = new Intent(ServerHome.this,ServerLocation.class);
-            startActivity(ServerLocationIntent);
+            Intent viewReservationsIntent = new Intent(ServerHome.this,ServerViewReservations.class);
+            startActivity(viewReservationsIntent);
 
         } else if (id == R.id.nav_orders) {
             Intent ServerorderIntent = new Intent(ServerHome.this,ServerDeliveryOrderStatus.class);
             startActivity(ServerorderIntent);
+
+        } else if (id == R.id.nav_location) {
+            Intent ServerLocationIntent = new Intent(ServerHome.this,ServerLocation.class);
+            startActivity(ServerLocationIntent);
 
         } else if (id == R.id.nav_log_out) {
             //Delete Rmbr user & password. Else nobody can log out hahhaha

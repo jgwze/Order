@@ -90,6 +90,7 @@
     <Button
         android:id="@+id/btnMakeReservation"
         android:text="Make a Reservation Now!"
+        android:textSize="20sp"
         android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_margin="8dp"

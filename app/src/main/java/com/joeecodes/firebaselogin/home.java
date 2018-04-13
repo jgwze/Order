@@ -28,6 +28,7 @@ import com.joeecodes.firebaselogin.Common.Common;
 import com.joeecodes.firebaselogin.Model.Category;
 import com.joeecodes.firebaselogin.Interface.ItemClickListener;
 import com.joeecodes.firebaselogin.Service.ListentoOrder;
+import com.joeecodes.firebaselogin.Service.ListentoReservation;
 import com.joeecodes.firebaselogin.ViewHolder.MenuViewHolder;
 
 
@@ -113,8 +114,11 @@ public class home extends AppCompatActivity
             return;
         }
         //Register Notification Service
-        Intent service = new Intent(home.this, ListentoOrder.class);
-        startService(service);
+        Intent orderservice = new Intent(home.this, ListentoOrder.class);
+        startService(orderservice);
+
+        Intent reserveservice = new Intent(home.this, ListentoReservation.class);
+        startService(reserveservice);
     }
     private void loadMenu(){
          adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {

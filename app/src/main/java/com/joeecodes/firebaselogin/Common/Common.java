@@ -50,18 +50,29 @@ public class Common {
     }
 
     public static String convertCodetoStatus(String status) {
-        //this.status="0"; default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed
+        //this.status="0"; default is 0. 0:Placed 1:On the way 2:Received
 
         if(status.equals("0"))
             return("Placed");
         else if(status.equals("1"))
             return "On the Way";
         else
-            return "Shipped";
+            return "Received";
+    }
+
+    public static String convertConfirmationStatus(String confirmation) {
+        //this.confirmation="0"; default is 0. 0:Awaiting Confirmation 1:Reservation Accepted 2:Reservation Deleted
+
+        if(confirmation.equals("0"))
+            return("Awaiting Confirmation");
+        else if(confirmation.equals("1"))
+            return("Accepted");
+        else
+            return "Declined";
     }
 
     public static String convertCodetoPayment(String payment) {
-        //this.status="0"; default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed
+        //this.status="0"; default is 0. 0:Awaiting Confirmation 1:Paid
 
         if(payment.equals("0"))
             return("Awaiting Payment");
