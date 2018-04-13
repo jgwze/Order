@@ -18,7 +18,7 @@ public class Request {
         this.name = name;
         this.total = total;
         this.foods = foods;
-        this.status="0"; //default is 0. 0:Placed/Awaiting Confirmation 1:Shipped/Reservation Placed
+        this.status="0"; //default is 0. 0:Placed
     }
 
     public String getPhone() {
